@@ -1,0 +1,74 @@
+#!/bin/bash
+
+# crandpass - create random password
+# An easy to use command-line password generator
+#
+# Author: Faolan Devyn Baldwin
+# Date: 03 July 2013
+
+# ERROR & MACROS
+E_NOARGS=65
+E_BADARG=66
+VERSION=1
+
+# DEFAULT VARS
+COUNT=8				# -c --count			number of passwords to print
+LENGTH=32			# -l --length			length of passwords
+SRC="random"		# -s --source			source device
+
+# FUNCTIONS
+usage() {
+	echo "crandpass - create random passwords"
+	echo "version 1"
+	echo "Usage: $0 -c 8 -l 32 -s random"
+	echo "-h             print this help message"
+	echo "-c             number of passwords to create (default: 8)"
+	echo "-l             length of passwords (default: 32)"
+	echo "-s             source of the passwords (default: urandom)"
+	echo "    r  random       use /dev/random"
+	echo "    u  urandom      use /dev/urandom"
+	echo "-v             print version number"
+	exit
+}
+
+version() {
+	echo "crandpass - create random passwords"
+	echo "version 1"
+}
+
+# HANDLE OPTIONS
+while getopts ":hc:l:s:v" opt; do
+   case $opt in
+      (h)
+         usage
+         exit ;;
+      (v)
+         version
+	 exit ;;
+      (c)
+         COUNT=$OPTARG ;;
+      (l)
+         LENGTH=$OPTARG ;;
+      (s)
+         case $OPTARG in
+            (random)
+               SRC="random";;
+            (r)
+               SRC="random" ;;
+            (urandom)
+               SRC="urandom" ;;
+            (u)
+               SRC="urandom" ;;
+            (*)
+               echo "INVALID OPTION IN -s"
+               usage
+               exit ;;
+            esac         
+   esac
+done
+
+# MAKE THE PASSWORDS
+cat /dev/$SRC | tr -dc 'a-zA-Z0-9' | fold -w $LENGTH | head -n $COUNT
+
+
+exit
