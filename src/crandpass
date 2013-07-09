@@ -9,7 +9,7 @@
 # ERROR & MACROS
 E_NOARGS=65
 E_BADARG=66
-VERSION=1
+VERSION=2
 
 # DEFAULT VARS
 COUNT=8				# -c --count			number of passwords to print
@@ -68,7 +68,7 @@ while getopts ":hc:l:s:v" opt; do
 done
 
 # MAKE THE PASSWORDS
-cat /dev/$SRC | tr -dc 'a-zA-Z0-9' | fold -w $LENGTH | head -n $COUNT
+cat /dev/$SRC | tr -dc [:alnum:] | fold -w $LENGTH | head -n $COUNT
 
 
 exit
