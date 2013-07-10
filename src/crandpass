@@ -19,7 +19,7 @@ SRC="random"		# -s --source			source device
 # FUNCTIONS
 usage() {
 	echo "crandpass - create random passwords"
-	echo "version 1"
+	echo "version $VERSION"
 	echo "Usage: $0 -c 8 -l 32 -s random"
 	echo "-h             print this help message"
 	echo "-c             number of passwords to create (default: 8)"
@@ -33,7 +33,7 @@ usage() {
 
 version() {
 	echo "crandpass - create random passwords"
-	echo "version 1"
+	echo "version $VERSION"
 }
 
 # HANDLE OPTIONS
