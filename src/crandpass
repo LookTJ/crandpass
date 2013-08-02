@@ -4,30 +4,48 @@
 # An easy to use command-line password generator
 #
 # Author: Faolan Devyn Baldwin
-# Date: 03 July 2013
+# Date: 02 August 2013
 
 # ERROR & MACROS
 E_NOARGS=65
 E_BADARG=66
-VERSION=2
+VERSION=3
 
 # DEFAULT VARS
-COUNT=8				# -c --count			number of passwords to print
-LENGTH=32			# -l --length			length of passwords
-SRC="random"		# -s --source			source device
+COUNT=1        # -c --count        number of passwords to print
+LENGTH=32      # -l --length       length of passwords
+SRC="random"   # -s --source       source device
+
+# FILTER VARS
+CASE="[:alpha:]"
+NUM="[:digit:]"
+SYM=""
+
+
 
 # FUNCTIONS
 usage() {
 	echo "crandpass - create random passwords"
 	echo "version $VERSION"
-	echo "Usage: $0 -c 8 -l 32 -s random"
-	echo "-h             print this help message"
-	echo "-c             number of passwords to create (default: 8)"
-	echo "-l             length of passwords (default: 32)"
-	echo "-s             source of the passwords (default: urandom)"
-	echo "    r  random       use /dev/random"
-	echo "    u  urandom      use /dev/urandom"
-	echo "-v             print version number"
+	echo "Usage: $0 -c 1 -l 32 -s random"
+	echo "-h   print this help message"
+	echo "-A   alphabetic characters options:"
+	echo "   0  x  exlude       exclude letters"
+	echo "   1  l  lower        use only lowercase"
+	echo "   2  u  upper        use only uppercase"
+	echo "   3  m  mix          use mixed case (default)"
+	echo "-c   number of passwords to create (default: 1)"
+	echo "-l   length of passwords (default: 32)"
+	echo "-N   numerical character options:"
+	echo "   0  x  exclude      exclude numbers"
+	echo "   1  i  include      include numbers (default)"
+	echo "-s   source of the passwords (default: random)"
+	echo "   r  random          use /dev/random"
+	echo "   u  urandom         use /dev/urandom"
+	echo "-S   symbol character options:"
+	echo "   0  x  exclude      exclude symbols (default)"
+	echo "   1  i  include      include symbols"
+	echo "-v   print version number"
 	exit
 }
 
@@ -37,38 +55,75 @@ version() {
 }
 
 # HANDLE OPTIONS
-while getopts ":hc:l:s:v" opt; do
+while getopts ":hA:c:l:N:s:S:v" opt; do
    case $opt in
       (h)
          usage
          exit ;;
-      (v)
-         version
-	 exit ;;
       (c)
          COUNT=$OPTARG ;;
+      (A)
+         case $OPTARG in
+            (x|exclude|0)
+               CASE="" ;;
+            (l|lower|1)
+               CASE="[:lower:]" ;;
+            (u|upper|2)
+               CASE="[:upper:]" ;;
+            (m|mixed|3)
+               CASE="[:alpha:]" ;;
+            (*)
+               echo "INVALID OPTION IN -C"
+               usage
+               exit ;;
+            esac ;;
       (l)
          LENGTH=$OPTARG ;;
+      (N)
+         case $OPTARG in
+            (x|exclude|0)
+               NUM="" ;;
+            (i|include|1)
+               NUM="[:digit:]" ;;
+            (*)
+               echo "INVALID OPTION IN -N"
+               usage
+               exit ;;
+            esac ;;
       (s)
          case $OPTARG in
-            (random)
+            (r|random)
                SRC="random";;
-            (r)
-               SRC="random" ;;
-            (urandom)
-               SRC="urandom" ;;
-            (u)
+            (u|urandom)
                SRC="urandom" ;;
             (*)
                echo "INVALID OPTION IN -s"
                usage
                exit ;;
-            esac         
-   esac
+            esac ;;
+      (S)
+         case $OPTARG in
+            (x|exclude|0)
+               SYM="" ;;
+            (i|include|1)
+               SYM="[:punct:]" ;;
+            (*)
+               echo "INVALID OPTION IN -S"
+               usage
+               exit ;;
+            esac ;;
+      (v)
+         version
+         exit ;;
+      (*)
+         echo "INVALID ARGUMENT"
+         usage
+         exit ;;
+      esac
 done
 
 # MAKE THE PASSWORDS
-cat /dev/$SRC | tr -dc [:alnum:] | fold -w $LENGTH | head -n $COUNT
+cat /dev/$SRC | tr -dc "$CASE$NUM$SYM" | fold -w $LENGTH | head -n $COUNT
 
 
 exit

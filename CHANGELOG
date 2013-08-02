@@ -1,0 +1,5 @@
+VERSION 3: 20130802
+  * CHANGED default passwords created to 1. This is to make the program script friendly so that it can be re-used.
+  * ADDED support for controling case
+  * ADDED support for character control: letters, numbers, and symbols can now be includued or excluded.
+  * ADDED symbol support.
