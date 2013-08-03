@@ -36,7 +36,7 @@ usage() {
 	echo "   3  m  mix          use mixed case (default)"
 	echo "-c   number of passwords to create (default: 1)"
 	echo "-H   create hexadecimal passwords"
-	echo "   1  l  lower        use lowercase (default)"
+	echo "   1  l  lower        use lowercase"
 	echo "   2  u  upper        use uppercase"
 	echo "-l   length of passwords (default: 32)"
 	echo "-N   numerical character options:"
@@ -90,6 +90,10 @@ while getopts ":hA:c:H:l:N:s:S:v" opt; do
                CASE="A-F"
                NUM="[:digit:]"
                SYM="" ;;
+            (*)
+               echo "INVALID OPTION IN -H"
+               usage
+               exit ;;
          esac ;;
       (l)
          LENGTH=$OPTARG ;;
