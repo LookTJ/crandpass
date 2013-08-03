@@ -9,7 +9,7 @@
 # ERROR & MACROS
 E_NOARGS=65
 E_BADARG=66
-VERSION=3
+VERSION=4
 
 # DEFAULT VARS
 COUNT=1        # -c --count        number of passwords to print
@@ -35,6 +35,9 @@ usage() {
 	echo "   2  u  upper        use only uppercase"
 	echo "   3  m  mix          use mixed case (default)"
 	echo "-c   number of passwords to create (default: 1)"
+	echo "-H   create hexadecimal passwords"
+	echo "   1  l  lower        use lowercase (default)"
+	echo "   2  u  upper        use uppercase"
 	echo "-l   length of passwords (default: 32)"
 	echo "-N   numerical character options:"
 	echo "   0  x  exclude      exclude numbers"
@@ -55,7 +58,7 @@ version() {
 }
 
 # HANDLE OPTIONS
-while getopts ":hA:c:l:N:s:S:v" opt; do
+while getopts ":hA:c:H:l:N:s:S:v" opt; do
    case $opt in
       (h)
          usage
@@ -77,6 +80,17 @@ while getopts ":hA:c:l:N:s:S:v" opt; do
                usage
                exit ;;
             esac ;;
+      (H)
+         case $OPTARG in
+            (l|lower|1)
+               CASE="a-f"
+               NUM="[:digit:]"
+               SYM="" ;;
+            (u|upper|2)
+               CASE="A-F"
+               NUM="[:digit:]"
+               SYM="" ;;
+         esac ;;
       (l)
          LENGTH=$OPTARG ;;
       (N)
