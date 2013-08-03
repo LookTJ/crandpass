@@ -9,7 +9,7 @@
 # ERROR & MACROS
 E_NOARGS=65
 E_BADARG=66
-VERSION=4
+VERSION=5
 
 # DEFAULT VARS
 COUNT=1        # -c --count        number of passwords to print

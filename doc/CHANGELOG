@@ -1,3 +1,7 @@
+VERSION 5: 20130803
+  * ADDED spec file for rpm package creation.
+  * CHANGED file structure of project folder.
+  * CHANGED README file is now up to date.
 VERSION 4: 20130802
   * ADDED hexadecimal password creation options (-H)
 VERSION 3: 20130802
