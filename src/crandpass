@@ -9,7 +9,7 @@
 # ERROR & MACROS
 E_NOARGS=65
 E_BADARG=66
-VERSION=5
+VERSION=6
 
 # DEFAULT VARS
 COUNT=1        # -c --count        number of passwords to print
@@ -139,6 +139,16 @@ while getopts ":hA:c:H:l:N:s:S:v" opt; do
          exit ;;
       esac
 done
+
+# OUTPUT TEST
+if [[ $CASE == "" && $NUM == "" && $SYM == "" ]]
+then
+  echo "ERROR: ATTEMPT TO SUPRESS ALL OUTPUT"
+  echo "OPTION: \"-A0 -N0 -S0\" DETECTED"
+  echo ""
+  usage
+  exit
+fi
 
 # MAKE THE PASSWORDS
 cat /dev/$SRC | tr -dc "$CASE$NUM$SYM" | fold -w $LENGTH | head -n $COUNT

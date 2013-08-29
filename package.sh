@@ -5,7 +5,7 @@
 # based systems.  It requires rpmbuild.
 
 # Variables
-VERSION=5
+VERSION=6
 
 # Functions
 z_package () { 

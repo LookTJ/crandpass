@@ -1,3 +1,5 @@
+VERSION 6: 20130828
+  * BUGFIX: "crandpass -A0 -N0 -S0" runs the random number generator indefinitely which causes entropy to run out.  Fixed so that when this command is issued it produces an error.
 VERSION 5: 20130803
   * ADDED spec file for rpm package creation.
   * CHANGED file structure of project folder.

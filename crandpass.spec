@@ -15,7 +15,7 @@
 # Please submit bugfixes or comments via http://bugs.opensuse.org/
 
 Name:           crandpass
-Version:        5
+Version:        6
 Release:        1
 License:        GPLv3
 Summary:        A small, simple password manager.
